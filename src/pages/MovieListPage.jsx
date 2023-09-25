@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import MovieList from '../components/MovieList.jsx';
 import MovieDetails from '../components/MovieDetails.jsx';
@@ -15,11 +16,16 @@ const sortByOptions = {
 };
 
 export default function MovieListPage() {
+  const [params] = useSearchParams();
   const [movie, setMovie] = useState(null);
   const [genre, setGenre] = useState({ id: '13a5fee2-47e2-11ee-be56-0242ac120002', name: 'comedy' });
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState(sortByOptions["Release Date"]);
   const [movies] = useMovies(genre, searchQuery, sortBy);
+
+  //TODO: continue here
+  //TODO: http://localhost:5173/?query=Stars&sortBy=date&genre=comedy
+  console.log('params', [...params.entries()])
 
   const genres = getGenres();
 

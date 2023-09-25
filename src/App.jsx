@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import AddMovie from './components/AddMovie';
 import EditMovie from './components/EditMovie';
@@ -43,24 +44,29 @@ function App() {
 
   return (
     <>
-      <MovieListPage />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<MovieListPage />} />
+        </Routes>
+        
 
-      <h1>Here is a list of modals</h1>
-      <ul>
-        <li onClick={() => handleAdd()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Add Movie Modal</button></li>
-        <li onClick={() => handleEdit()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Edit Movie Modal</button></li>
-        <li onClick={() => handleDelete()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Delete Movie Modal</button></li>
-        <li onClick={() => handleMovieAdded()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Movie Added Modal</button></li>
-        <li onClick={() => handleAlert()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>handle alert</button></li>
-      </ul>
+        <h1>Here is a list of modals</h1>
+        <ul>
+          <li onClick={() => handleAdd()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Add Movie Modal</button></li>
+          <li onClick={() => handleEdit()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Edit Movie Modal</button></li>
+          <li onClick={() => handleDelete()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Delete Movie Modal</button></li>
+          <li onClick={() => handleMovieAdded()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Movie Added Modal</button></li>
+          <li onClick={() => handleAlert()}><button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>handle alert</button></li>
+        </ul>
 
-      <AddMovie />
-      <EditMovie movie={movieToEdit} />
-      <DeleteMovie />
-      <MovieAdded />
-      {
-        showAlert && <Alert onClose={setShowAlert}><p>Error happened</p></Alert>
-      }
+        <AddMovie />
+        <EditMovie movie={movieToEdit} />
+        <DeleteMovie />
+        <MovieAdded />
+        {
+          showAlert && <Alert onClose={setShowAlert}><p>Error happened</p></Alert>
+        }
+      </BrowserRouter>
     </>
   );
 }
