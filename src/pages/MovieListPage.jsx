@@ -15,19 +15,28 @@ const sortByOptions = {
   'Title': 'title'
 };
 
-export default function MovieListPage() {
-  const [params] = useSearchParams();
-  const [movie, setMovie] = useState(null);
-  const [genre, setGenre] = useState({ id: '13a5fee2-47e2-11ee-be56-0242ac120002', name: 'comedy' });
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState(sortByOptions["Release Date"]);
-  const [movies] = useMovies(genre, searchQuery, sortBy);
+function getGenres() {
+  return [
+    'all',
+    'documentary',
+    'comedy',
+    'horror',
+    'crime'
+  ];
+}
 
-  //TODO: continue here
-  //TODO: http://localhost:5173/?query=Stars&sortBy=date&genre=comedy
-  console.log('params', [...params.entries()])
+const defaultGenre = 'comedy';
+
+export default function MovieListPage() {
+  const [params, setSearchParams] = useSearchParams();
+  const query = params.get('query') ?? '';
+  const genre = params.get('genre') ?? defaultGenre;
+  const sortBy = params.get('sortBy') ?? sortByOptions["Release Date"];
 
   const genres = getGenres();
+
+  const [movie, setMovie] = useState(null);
+  const [movies] = useMovies(genre, query, sortBy);
 
   function onSelectMovie(movie) {
     console.log('[you select movie]: ', movie);
@@ -35,18 +44,18 @@ export default function MovieListPage() {
   }
 
   function onSearch(searchQuery) {
-    console.log('[you just searched mvoie] : ', searchQuery);
-    setSearchQuery(searchQuery)
+    console.log('[you just searched movie] : ', searchQuery);
+    setSearchParams({ query: searchQuery })
   }
 
   function onGenreSelect(genre) {
     console.log('[you just select genre] : ', genre);
-    setGenre(genre);
+    setSearchParams({ query, genre, sortBy });
   }
 
-  function onSortBySelect(sortBy) {
-    console.log('[you select sortBy]: ', sortBy);
-    setSortBy(sortByOptions[sortBy]);
+  function onSortBySelect(selectedSortBy) {
+    console.log('[you select sortBy]: ', selectedSortBy);
+    setSearchParams({ query, genre, sortBy: sortByOptions[selectedSortBy] })
   }
 
   function onMovieDetailsSearchClick() {
@@ -57,7 +66,7 @@ export default function MovieListPage() {
   return (
     <>
       {
-        !movie && <SearchForm defaultSearchQuery={searchQuery} onSearch={onSearch} />
+        !movie && <SearchForm defaultSearchQuery={query} onSearch={onSearch} />
       }
       <GenreSelect genres={genres} genre={genre} onSelect={onGenreSelect} />
       <SortControl sortBy={sortBy} onSelect={onSortBySelect} />
@@ -67,14 +76,4 @@ export default function MovieListPage() {
     </>
 
   );
-}
-
-function getGenres() {
-  return [
-    { id: '13a5fa3c-47e2-11ee-be56-0242ac120002', name: 'all' },
-    { id: '13a5fd16-47e2-11ee-be56-0242ac120002', name: 'documentary' },
-    { id: '13a5fee2-47e2-11ee-be56-0242ac120002', name: 'comedy' },
-    { id: '13a60036-47e2-11ee-be56-0242ac120002', name: 'horror' },
-    { id: '13a6063a-47e2-11ee-be56-0242ac120002', name: 'crime' }
-  ];
 }

@@ -13,12 +13,12 @@ export default function useMovies(genre, searchQuery, sortBy) {
     const abortController = new AbortController();
 
     let path = 'movies';
-    if (genre.name === 'all' && !searchQuery) {
+    if (genre === 'all' && !searchQuery) {
       path += `?sortBy=${sortBy}&sortOrder=desc`
     } else if (searchQuery) {
       path += `?search=${searchQuery}&searchBy=title`
     } else {
-      path += `?searchBy=genres&filter=${genre.name}&sortBy=${sortBy}&sortOrder=desc`;
+      path += `?searchBy=genres&filter=${genre}&sortBy=${sortBy}&sortOrder=desc`;
     }
 
     try {
