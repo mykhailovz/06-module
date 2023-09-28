@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Outlet } from 'react-router-dom';
 
 import MovieList from '../components/MovieList.jsx';
-import MovieDetails from '../components/MovieDetails.jsx';
 import SearchForm from '../components/SearchForm.jsx';
 import GenreSelect from '../components/GenreSelect.jsx';
 import SortControl from '../components/SortControl.jsx';
@@ -58,19 +57,12 @@ export default function MovieListPage() {
     setSearchParams({ query, genre, sortBy: sortByOptions[selectedSortBy] })
   }
 
-  function onMovieDetailsSearchClick() {
-    console.log('you click on movie details to search movies');
-    setMovie(null);
-  }
-
   return (
     <>
-      {
-        !movie && <SearchForm defaultSearchQuery={query} onSearch={onSearch} />
-      }
+      <SearchForm defaultSearchQuery={query} onSearch={onSearch} />
+      <Outlet />
       <GenreSelect genres={genres} genre={genre} onSelect={onGenreSelect} />
       <SortControl sortBy={sortBy} onSelect={onSortBySelect} />
-      <MovieDetails movie={movie} onClick={onMovieDetailsSearchClick} />
       <MovieCounter movies={movies} />
       <MovieList movies={movies} onSelectMovie={onSelectMovie} />
     </>
