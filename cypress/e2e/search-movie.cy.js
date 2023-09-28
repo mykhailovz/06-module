@@ -7,5 +7,8 @@ describe('search form', () => {
     cy.get('[data-testid="search-input"]').type('Pandas');
     cy.get('[data-testid="search-button"]').click();
     cy.get('#root > :nth-child(4)').contains('1 movies found');
+    cy.location().should(loc => {
+      expect(loc.search).to.eq('?query=Pandas')
+    });
   });
 });
