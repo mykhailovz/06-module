@@ -1,14 +1,9 @@
 import { Link, useSearchParams } from 'react-router-dom';
 
-const sortByOptions = {
-  'Release Date': 'release_date',
-  'Title': 'title'
-};
+import { defaultGenre } from '../lib/genre.js'
+import { sortByOptions } from '../lib/sortOptions.js';
 
-const defaultGenre = 'comedy';
-
-
-export default function MovieItem({movie, onSelectMovie}) {
+export default function MovieItem({ movie }) {
   const [params] = useSearchParams();
   const query = params.get('query') ?? '';
   const genre = params.get('genre') ?? defaultGenre;
@@ -16,7 +11,7 @@ export default function MovieItem({movie, onSelectMovie}) {
 
   return (
     <Link to={`movies/${movie?.id}?query=${query}&genre=${genre}&sortBy=${sortBy}`}>
-      <div className="max-w-xs rounded overflow-hidden shadow-lg" onClick={() => onSelectMovie(movie)}>
+      <div className="max-w-xs rounded overflow-hidden shadow-lg">
         <img className="w-9/12" src={movie.poster_path} alt={movie.title} />
         <div className="px-6 py-4">
           <div className="font-bold text-xl mb-2" data-testid='movie-title'>{movie.title}</div>

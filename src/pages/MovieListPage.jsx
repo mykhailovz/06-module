@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useSearchParams, Outlet } from 'react-router-dom';
 
 import MovieList from '../components/MovieList.jsx';
@@ -9,22 +8,8 @@ import MovieCounter from '../components/MovieCounter.jsx';
 
 import useMovies from '../hooks/useMovies.js';
 
-const sortByOptions = {
-  'Release Date': 'release_date',
-  'Title': 'title'
-};
-
-function getGenres() {
-  return [
-    'all',
-    'documentary',
-    'comedy',
-    'horror',
-    'crime'
-  ];
-}
-
-const defaultGenre = 'comedy';
+import { defaultGenre, getGenres } from '../lib/genre.js';
+import { sortByOptions } from '../lib/sortOptions.js';
 
 export default function MovieListPage() {
   const [params, setSearchParams] = useSearchParams();
@@ -34,13 +19,7 @@ export default function MovieListPage() {
 
   const genres = getGenres();
 
-  const [movie, setMovie] = useState(null);
   const [movies] = useMovies(genre, query, sortBy);
-
-  function onSelectMovie(movie) {
-    console.log('[you select movie]: ', movie);
-    setMovie(movie);
-  }
 
   function onSearch(searchQuery) {
     console.log('[you just searched movie] : ', searchQuery);
@@ -64,7 +43,7 @@ export default function MovieListPage() {
       <GenreSelect genres={genres} genre={genre} onSelect={onGenreSelect} />
       <SortControl sortBy={sortBy} onSelect={onSortBySelect} />
       <MovieCounter movies={movies} />
-      <MovieList movies={movies} onSelectMovie={onSelectMovie} />
+      <MovieList movies={movies} />
     </>
 
   );
