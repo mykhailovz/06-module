@@ -4,8 +4,8 @@ import useMovie from '../hooks/useMovie.js';
 import MovieDetails from './MovieDetails.jsx';
 
 export default function FetchMovieDetails() {
-  const { movieId } = useParams();
-  const [movie] = useMovie(movieId);
+  const { id } = useParams();
+  const [movie] = useMovie(id);
 
   return (
     <>
